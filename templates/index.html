@@ -59,19 +59,52 @@
             padding: 16px;
             margin-top: 20px;
         }
+
+        select {
+            background-color: #0b1d3a;
+            color: #e6eefc;
+            border: 1px solid #2a4a7f;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 16px;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
     </style>
 </head>
 <body>
     <div class="card">
         <h1>AI Text Summarizer</h1>
-        <form method="POST">
-            <textarea name="user_text" rows="10" cols="60"></textarea>
+        <form method="POST" id="summary-form">
+            <textarea name="user_text" rows="10" cols="60">{{ user_text }}</textarea>
             <br>
-            <button type="submit">Summarize</button>
+            <select name="length">
+                <option value="1 sentence" {% if length == "1 sentence" %}selected{% endif %}>Short</option>
+                <option value="3 sentence" {% if length == "3 sentence" %}selected{% endif %}>Medium</option>
+                <option value="6 sentence" {% if length == "6 sentence" %}selected{% endif %}>Long</option>
+            </select>
+            <br>
+            <button type="submit" id="summarize-button">Summarize</button>
         </form>
         {% if result %}
         <div class="result">{{ result }}</div>
         {% endif %}
     </div>
+
+
+<script>
+        const form = document.getElementById("summary-form");
+        const button = document.getElementById("summarize-button");
+
+        form.addEventListener("submit", function() {
+            button.textContent = "summarizing...";
+            button.disabled = true;
+        });
+</script>
 </body>
 </html>
